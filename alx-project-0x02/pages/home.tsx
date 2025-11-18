@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Card from '@/components/common/Card';
 import PostModal from '@/components/common/PostModal';
 import { type PostProps } from '@/interfaces';
+import Header from '@/components/layout/Header';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+    <>
+      <Header />
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
       <div className="container mx-auto px-4">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -214,7 +217,8 @@ const Home = () => {
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddPost}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

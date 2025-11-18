@@ -21,8 +21,8 @@ const Header: React.FC = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/contact" className="text-gray-600 hover:text-gray-900">
-                                Contact
+                            <Link href="/posts" className="text-gray-600 hover:text-gray-900">
+                                Posts
                             </Link>
                         </li>
                     </ul>

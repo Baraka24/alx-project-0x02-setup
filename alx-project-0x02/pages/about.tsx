@@ -1,10 +1,13 @@
 // components/about.tsx
 import React from 'react';
 import Button from '@/components/common/Button';
+import Header from '@/components/layout/Header';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <Header />
+      <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20">
         <div className="container mx-auto px-4 text-center">
@@ -123,7 +126,8 @@ const About = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 
