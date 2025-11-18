@@ -3,7 +3,6 @@ import React from 'react';
 import Header from '@/components/layout/Header';
 import UserCard from '@/components/common/UserCard';
 import { type UserProps } from '@/interfaces';
-import { GetStaticProps } from 'next';
 
 interface UsersPageProps {
   users: UserProps[];
@@ -95,7 +94,8 @@ const Users: React.FC<UsersPageProps> = ({ users }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<UsersPageProps> = async () => {
+// Data fetching function
+export async function getStaticProps() {
   try {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     
@@ -121,6 +121,6 @@ export const getStaticProps: GetStaticProps<UsersPageProps> = async () => {
       revalidate: 60,
     };
   }
-};
+}
 
 export default Users;
