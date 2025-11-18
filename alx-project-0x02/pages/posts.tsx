@@ -1,54 +1,47 @@
 // pages/posts.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/layout/Header';
-import Card from '@/components/common/Card';
+import PostCard from '@/components/common/PostCard';
+import { type PostProps } from '@/interfaces';
 
 const Posts = () => {
-  // Sample posts data
-  const samplePosts = [
-    {
-      id: 1,
-      title: 'Getting Started with Next.js',
-      content: 'Next.js is a powerful React framework that enables you to build fast and user-friendly web applications. It provides features like server-side rendering, static site generation, and automatic code splitting.',
-      author: 'John Doe',
-      date: 'November 15, 2025',
-    },
-    {
-      id: 2,
-      title: 'Understanding TypeScript',
-      content: 'TypeScript adds static typing to JavaScript, making your code more robust and maintainable. Learn how to leverage TypeScript to catch errors early and improve your development experience.',
-      author: 'Jane Smith',
-      date: 'November 16, 2025',
-    },
-    {
-      id: 3,
-      title: 'Tailwind CSS Best Practices',
-      content: 'Tailwind CSS is a utility-first CSS framework that helps you build modern websites quickly. Discover best practices and tips for using Tailwind effectively in your projects.',
-      author: 'Mike Johnson',
-      date: 'November 17, 2025',
-    },
-    {
-      id: 4,
-      title: 'React Component Patterns',
-      content: 'Explore common React component patterns that help you write cleaner, more maintainable code. From composition to render props, learn when and how to use each pattern.',
-      author: 'Sarah Williams',
-      date: 'November 18, 2025',
-    },
-    {
-      id: 5,
-      title: 'Building Responsive Layouts',
-      content: 'Creating responsive layouts is essential for modern web development. Learn techniques and strategies for building layouts that work seamlessly across all device sizes.',
-      author: 'David Brown',
-      date: 'November 18, 2025',
-    },
-    {
-      id: 6,
-      title: 'State Management in React',
-      content: 'Managing state effectively is crucial for building complex React applications. Explore different state management solutions and learn when to use each approach.',
-      author: 'Emily Davis',
-      date: 'November 18, 2025',
-    },
-  ];
+  const [posts, setPosts] = useState<PostProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+
+        const data = await response.json();
+        
+        // Map API data to our PostProps interface
+        const formattedPosts: PostProps[] = data.slice(0, 12).map((post: { id: number; title: string; body: string; userId: number }) => ({
+          id: post.id,
+          title: post.title,
+          content: post.body,
+          userId: post.userId,
+          body: post.body,
+        }));
+
+        setPosts(formattedPosts);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error fetching posts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <>
@@ -67,23 +60,35 @@ const Posts = () => {
         {/* Posts Grid */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {samplePosts.map((post) => (
-                <Card
-                  key={post.id}
-                  title={post.title}
-                  content={post.content}
-                  className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span className="font-semibold">By {post.author}</span>
-                      <span>{post.date}</span>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
+            {loading && (
+              <div className="text-center">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <p className="mt-4 text-gray-600">Loading posts...</p>
+              </div>
+            )}
+
+            {error && (
+              <div className="text-center">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg max-w-md mx-auto">
+                  <p className="font-bold">Error</p>
+                  <p>{error}</p>
+                </div>
+              </div>
+            )}
+
+            {!loading && !error && posts.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {posts.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+              </div>
+            )}
+
+            {!loading && !error && posts.length === 0 && (
+              <div className="text-center text-gray-600">
+                <p>No posts found.</p>
+              </div>
+            )}
           </div>
         </section>
 

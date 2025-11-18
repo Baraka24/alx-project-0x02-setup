@@ -13,7 +13,8 @@ export interface PostProps {
     id: number;
     title: string;
     content: string;
-    createdAt: string;
+    userId: number;
+    body?: string;
 }
 
 export interface ButtonProps {
