@@ -1,5 +1,6 @@
 // components/about.tsx
 import React from 'react';
+import Button from '@/components/common/Button';
 
 const About = () => {
   return (
@@ -77,6 +78,24 @@ const About = () => {
                 We operate with honesty and transparency, building trust with our users and partners.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Button Examples */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Interactive Buttons</h2>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Button size="small" shape="rounded-sm" variant="primary">
+              Small Button
+            </Button>
+            <Button size="medium" shape="rounded-md" variant="secondary">
+              Medium Button
+            </Button>
+            <Button size="large" shape="rounded-full" variant="outline">
+              Large Button
+            </Button>
           </div>
         </div>
       </section>

@@ -15,3 +15,13 @@ export interface PostProps {
     content: string;
     createdAt: string;
 }
+
+export interface ButtonProps {
+    size?: 'small' | 'medium' | 'large';
+    shape?: 'rounded-sm' | 'rounded-md' | 'rounded-full';
+    children: React.ReactNode;
+    onClick?: () => void;
+    type?: 'button' | 'submit' | 'reset';
+    variant?: 'primary' | 'secondary' | 'outline';
+    className?: string;
+}
