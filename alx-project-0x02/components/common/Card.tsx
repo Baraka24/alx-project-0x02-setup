@@ -1,16 +1,15 @@
 // components/common/Card.tsx
 import React from 'react';
+import { type CardProps } from '@/interfaces';
 
-interface CardProps {
-  title: string;
-  content: string;
+interface ExtendedCardProps extends CardProps {
   children?: React.ReactNode;
   className?: string;
   titleClassName?: string;
   contentClassName?: string;
 }
 
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<ExtendedCardProps> = ({
   title,
   content,
   children,
