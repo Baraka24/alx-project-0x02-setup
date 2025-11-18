@@ -1,8 +1,23 @@
 // pages/home.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@/components/common/Card';
+import PostModal from '@/components/common/PostModal';
+import { type PostProps } from '@/interfaces';
 
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [posts, setPosts] = useState<PostProps[]>([]);
+
+  const handleAddPost = (post: { title: string; content: string }) => {
+    const newPost: PostProps = {
+      id: Date.now(),
+      title: post.title,
+      content: post.content,
+      createdAt: new Date().toLocaleString(),
+    };
+    setPosts([newPost, ...posts]);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
       <div className="container mx-auto px-4">
@@ -11,10 +26,52 @@ const Home = () => {
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Welcome to Our Platform
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
             Discover amazing features designed to help you succeed. Explore our services below.
           </p>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center gap-2 px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Create New Post
+          </button>
         </div>
+
+        {/* User Posts Section */}
+        {posts.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+              Recent Posts
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post) => (
+                <Card
+                  key={post.id}
+                  title={post.title}
+                  content={post.content}
+                  className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 hover:shadow-xl transition-shadow duration-300"
+                >
+                  <div className="mt-3 text-sm text-gray-500">
+                    Posted on: {post.createdAt}
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
@@ -150,6 +207,13 @@ const Home = () => {
           </Card>
         </div>
       </div>
+
+      {/* Post Modal */}
+      <PostModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleAddPost}
+      />
     </div>
   );
 };
