@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Header: React.FC = () => {
     return (
@@ -10,19 +11,19 @@ const Header: React.FC = () => {
                 <nav>
                     <ul className="flex space-x-6">
                         <li>
-                            <a href="/" className="text-gray-600 hover:text-gray-900">
+                            <Link href="/home" className="text-gray-600 hover:text-gray-900">
                                 Home
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/about" className="text-gray-600 hover:text-gray-900">
+                            <Link href="/about" className="text-gray-600 hover:text-gray-900">
                                 About
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/contact" className="text-gray-600 hover:text-gray-900">
+                            <Link href="/contact" className="text-gray-600 hover:text-gray-900">
                                 Contact
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
